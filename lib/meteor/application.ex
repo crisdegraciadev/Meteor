@@ -36,6 +36,6 @@ defmodule Meteor.Application do
 
   defp skip_migrations?() do
     System.get_env("BURRITO_TARGET") != nil or
-      Application.get_env(:cy_camera_companion, :skip_migrations, false)
+      Application.get_env(:meteor, :skip_migrations, false)
   end
 end

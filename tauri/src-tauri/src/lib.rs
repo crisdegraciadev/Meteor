@@ -31,7 +31,6 @@ async fn start_backend(handle: &tauri::AppHandle) -> Result<(), Box<dyn std::err
     let sidecar_command = handle
         .shell()
         .sidecar("meteor_backend")?
-        .env("SECRET_KEY_BASE", "x/mm6Ym5YyxCdmSkmSRmG5sypohljjwpHPhZoVxr+uuVle3W0BqK3Y6hwhkh/d7v")
         .env("METEOR_PORT", "4000")
         .env("MIX_ENV", "prod")
         .env("BURRITO_TARGET", "tauri");
