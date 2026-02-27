@@ -6,7 +6,7 @@ defmodule MeteorWeb.GameLive.Index do
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.app flash={@flash}>
+    <Layouts.app flash={@flash} current_module={["library", "backlog"]}>
       <.table
         id="games"
         rows={@streams.games}

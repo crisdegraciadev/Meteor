@@ -3,3 +3,11 @@
 @import "./libs/lucide.css";
 
 @import "./core/config.css";
+
+@import "./components/divider.css";
+@import "./components/menu.css";
+
+* {
+	/* scrollbar-width: thin; */
+	scrollbar-width: none;
+}

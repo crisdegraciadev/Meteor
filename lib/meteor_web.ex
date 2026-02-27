@@ -87,6 +87,7 @@ defmodule MeteorWeb do
       # Core UI components
       import MeteorWeb.Components.Core
       import MeteorWeb.Components.Input
+      import MeteorWeb.Components.Typography
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

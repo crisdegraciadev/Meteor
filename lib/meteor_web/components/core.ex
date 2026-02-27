@@ -44,32 +44,52 @@ defmodule MeteorWeb.Components.Core do
     """
   end
 
-  attr :rest, :global, include: ~w(href navigate patch method download name value disabled)
-  attr :class, :any
-  attr :variant, :string, values: ~w(primary)
+  attr :variant, :string,
+    values:
+      ~w(btn-primary btn-secondary btn-neutral btn-accent btn-info btn-success btn-warning btn-error btn-ghost btn-link),
+    default: "btn-primary"
+
+  attr :size, :string, values: ~w(btn-xs btn-sm btn-l btn-xl)
+  attr :icon, :string, values: ~w(btn-square btn-circle)
+  attr :soft, :boolean, default: false
+  attr :outline, :boolean, default: false
+  attr :dash, :boolean, default: false
+  attr :active, :boolean, default: false
+  attr :class, :string, default: nil
+  attr :rest, :global, include: ~w(href navigate patch method download name value disabled form)
+
   slot :inner_block, required: true
 
   def button(%{rest: rest} = assigns) do
-    variants = %{"primary" => "btn-primary", nil => "btn-primary btn-soft"}
-
     assigns =
-      assign_new(assigns, :class, fn ->
-        ["btn", Map.fetch!(variants, assigns[:variant])]
-      end)
+      assigns
+      |> assign(:class, [
+        "btn shrink-1",
+        assigns[:variant],
+        assigns[:size],
+        assigns[:icon],
+        assigns[:soft] && "btn-soft",
+        assigns[:outline] && "btn-outline",
+        assigns[:dash] && "btn-dash",
+        assigns[:active] && "btn-active",
+        assigns[:class]
+      ])
 
     if rest[:href] || rest[:navigate] || rest[:patch] do
       ~H"""
-      <.link class={@class} {@rest}>
-        {render_slot(@inner_block)}
-      </.link>
+      <.link class={@class} {@rest}>{render_slot(@inner_block)}</.link>
       """
     else
       ~H"""
-      <button class={@class} {@rest}>
-        {render_slot(@inner_block)}
-      </button>
+      <button class={@class} {@rest}>{render_slot(@inner_block)}</button>
       """
     end
+  end
+
+  def divider(assigns) do
+    ~H"""
+    <div class="divider" />
+    """
   end
 
   attr :id, :string, required: true
@@ -131,7 +151,7 @@ defmodule MeteorWeb.Components.Core do
 
   def icon(%{name: "lucide-" <> _} = assigns) do
     ~H"""
-    <i class={[@name, @class]} />
+    <i class={[@name, @size, @class]} />
     """
   end
 
