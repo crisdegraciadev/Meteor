@@ -85,7 +85,8 @@ defmodule MeteorWeb do
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components
-      import MeteorWeb.CoreComponents
+      import MeteorWeb.Components.Core
+      import MeteorWeb.Components.Input
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

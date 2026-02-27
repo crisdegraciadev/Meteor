@@ -8,11 +8,6 @@ defmodule MeteorWeb.GameLive.Form do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash}>
-      <.header>
-        {@page_title}
-        <:subtitle>Use this form to manage game records in your database.</:subtitle>
-      </.header>
-
       <.form for={@form} id="game-form" phx-change="validate" phx-submit="save">
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:sgdb_id]} type="number" label="Sgdb" />

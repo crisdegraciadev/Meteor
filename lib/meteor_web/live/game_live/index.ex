@@ -7,15 +7,6 @@ defmodule MeteorWeb.GameLive.Index do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash}>
-      <.header>
-        Listing Games
-        <:actions>
-          <.button variant="primary" navigate={~p"/games/new"}>
-            <.icon name="hero-plus" /> New Game
-          </.button>
-        </:actions>
-      </.header>
-
       <.table
         id="games"
         rows={@streams.games}

@@ -6,27 +6,7 @@ defmodule MeteorWeb.GameLive.Show do
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.app flash={@flash}>
-      <.header>
-        Game {@game.id}
-        <:subtitle>This is a game record from your database.</:subtitle>
-        <:actions>
-          <.button navigate={~p"/games"}>
-            <.icon name="hero-arrow-left" />
-          </.button>
-          <.button variant="primary" navigate={~p"/games/#{@game}/edit?return_to=show"}>
-            <.icon name="hero-pencil-square" /> Edit game
-          </.button>
-        </:actions>
-      </.header>
-
-      <.list>
-        <:item title="Name">{@game.name}</:item>
-        <:item title="Sgdb">{@game.sgdb_id}</:item>
-        <:item title="Cover">{@game.cover}</:item>
-        <:item title="Hero">{@game.hero}</:item>
-      </.list>
-    </Layouts.app>
+    <Layouts.app flash={@flash}></Layouts.app>
     """
   end
 
