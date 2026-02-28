@@ -115,7 +115,7 @@ defmodule MeteorWeb.Layouts do
           </div>
         </div>
       </nav>
-      <div class="mx-auto max-w-2xl space-y-4">
+      <div class="p-12 flex-1">
         {render_slot(@inner_block)}
       </div>
     </main>
