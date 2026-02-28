@@ -15,3 +15,7 @@
 :root {
   scrollbar-gutter: auto !important;
 }
+
+* {
+	scrollbar-width: none;
+}

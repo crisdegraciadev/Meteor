@@ -85,7 +85,7 @@ defmodule MeteorWeb.Layouts do
       <nav class="flex flex-col gap-8 p-6 w-[280px] bg-base-300 border-r border-neutral-content/25">
         <div class="flex items-center gap-4">
           <img src={~p"/images/logo.svg"} width="56" />
-          <.title type="h1">Meteor</.title>
+          <h1 class="text-2xl font-bold">Meteor</h1>
         </div>
 
         <div class="flex flex-col gap-4 min-h-0 h-full">
@@ -98,7 +98,7 @@ defmodule MeteorWeb.Layouts do
               active={"/#{Enum.join(@current_module, "/")}" == item.href}
             />
           </.menu>
-          <.divider />
+
           <div class="flex flex-col gap-4 h-full justify-between flex-1 min-h-0">
             <.menu title="Collections" class="flex-1 min-h-0">
               <:item
@@ -110,8 +110,6 @@ defmodule MeteorWeb.Layouts do
                 children={item.children}
               />
             </.menu>
-            <.divider />
-            <.button><.icon name="lucide-folder-tree" />Manage collections</.button>
           </div>
         </div>
       </nav>

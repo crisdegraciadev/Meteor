@@ -23,11 +23,14 @@ defmodule MeteorWeb.Components.Input do
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
   attr :class, :any, default: nil, doc: "the input class to use over defaults"
+  attr :wrapper_class, :any, default: nil, doc: "the input wrapper class"
   attr :error_class, :any, default: nil, doc: "the input error class to use over defaults"
 
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
                 multiple pattern placeholder readonly required rows size step)
+
+  slot :icon
 
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
@@ -46,6 +49,25 @@ defmodule MeteorWeb.Components.Input do
     """
   end
 
+  def input(%{type: "search"} = assigns) do
+    ~H"""
+    <label class={["input w-full h-12 p-4 rounded-4xl", @wrapper_class]}>
+      <Core.icon name="lucide-search" />
+      <input
+        type={@type}
+        name={@name}
+        id={@id}
+        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+        class={[
+          "w-full grow",
+          @errors != [] && (@error_class || "input-error")
+        ]}
+        {@rest}
+      />
+    </label>
+    """
+  end
+
   def input(%{type: "checkbox"} = assigns) do
     assigns =
       assign_new(assigns, :checked, fn ->
@@ -53,7 +75,7 @@ defmodule MeteorWeb.Components.Input do
       end)
 
     ~H"""
-    <div class="fieldset mb-2">
+    <div class="fieldset">
       <label for={@id}>
         <input
           type="hidden"
@@ -81,7 +103,7 @@ defmodule MeteorWeb.Components.Input do
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <div class="fieldset mb-2">
+    <div class="fieldset">
       <label for={@id}>
         <span :if={@label} class="label mb-1">{@label}</span>
         <select
@@ -102,7 +124,7 @@ defmodule MeteorWeb.Components.Input do
 
   def input(%{type: "textarea"} = assigns) do
     ~H"""
-    <div class="fieldset mb-2">
+    <div class="fieldset">
       <label for={@id}>
         <span :if={@label} class="label mb-1">{@label}</span>
         <textarea
@@ -123,8 +145,8 @@ defmodule MeteorWeb.Components.Input do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div class="fieldset mb-2">
-      <label for={@id}>
+    <div class="fieldset">
+      <label class="input" for={@id}>
         <span :if={@label} class="label mb-1">{@label}</span>
         <input
           type={@type}

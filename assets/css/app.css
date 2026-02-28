@@ -5,9 +5,9 @@
 @import "./core/config.css";
 
 @import "./components/divider.css";
+@import "./components/input.css";
 @import "./components/menu.css";
 
 * {
-	/* scrollbar-width: thin; */
 	scrollbar-width: none;
 }
