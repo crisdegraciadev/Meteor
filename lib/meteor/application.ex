@@ -10,6 +10,7 @@ defmodule Meteor.Application do
     children = [
       MeteorWeb.Telemetry,
       Meteor.Repo,
+      Meteor.Cache,
       {Ecto.Migrator,
        repos: Application.fetch_env!(:meteor, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:meteor, :dns_cluster_query) || :ignore},

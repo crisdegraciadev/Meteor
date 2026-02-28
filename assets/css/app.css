@@ -4,10 +4,57 @@
 
 @import "./core/config.css";
 
+@import "./effects/scroll-fade.css";
+
 @import "./components/divider.css";
+@import "./components/game-cover.css";
+@import "./components/input.css";
 @import "./components/menu.css";
 
-* {
-	/* scrollbar-width: thin; */
-	scrollbar-width: none;
+/* Overlay */
+.bottom-drawer-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.4);
+	opacity: 0;
+	visibility: hidden;
+	transition:
+		opacity 0.3s ease,
+		visibility 0.3s ease;
+	z-index: 40;
+}
+
+/* Drawer */
+.bottom-drawer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	/* background: white; */
+	border-radius: 1.5rem 1.5rem 0 0;
+	box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+	transform: translateY(100%);
+	transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+	z-index: 50;
+	max-height: 90vh;
+	overflow-y: auto;
+}
+
+/* Open state */
+.bottom-drawer.open {
+	transform: translateY(0);
+}
+
+.bottom-drawer-overlay.open {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Drag handle */
+.drawer-handle {
+	width: 40px;
+	height: 5px;
+	background: #d1d5db;
+	border-radius: 99px;
+	margin: 12px auto 8px;
 }

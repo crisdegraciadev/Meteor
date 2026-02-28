@@ -1,32 +1,17 @@
 defmodule Meteor.Games do
-  import Ecto.Query, warn: false
-  alias Meteor.Repo
+  alias Meteor.Games.Assets
+  alias Meteor.Games.SGDB
+  alias Meteor.Games.Store
 
-  alias Meteor.Games.Game
+  defdelegate main_asset_url(assets), to: Assets
 
-  def list_games do
-    Repo.all(Game)
-  end
+  defdelegate search_sgdb_games(term), to: SGDB
+  defdelegate get_sgdb_game(id, api_key), to: SGDB
+  defdelegate get_sgdb_covers(id, api_key), to: SGDB
+  defdelegate get_sgdb_heroes(id, api_key), to: SGDB
 
-  def get_game!(id), do: Repo.get!(Game, id)
-
-  def create_game(attrs) do
-    %Game{}
-    |> Game.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  def update_game(%Game{} = game, attrs) do
-    game
-    |> Game.changeset(attrs)
-    |> Repo.update()
-  end
-
-  def delete_game(%Game{} = game) do
-    Repo.delete(game)
-  end
-
-  def change_game(%Game{} = game, attrs \\ %{}) do
-    Game.changeset(game, attrs)
-  end
+  defdelegate change_game(game, attrs \\ %{}), to: Store
+  defdelegate delete_game!(game), to: Store
+  defdelegate update_game(game, attrs), to: Store
+  defdelegate create_game(attrs), to: Store
 end

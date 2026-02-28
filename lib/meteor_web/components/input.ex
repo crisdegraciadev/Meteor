@@ -23,11 +23,14 @@ defmodule MeteorWeb.Components.Input do
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
   attr :class, :any, default: nil, doc: "the input class to use over defaults"
+  attr :wrapper_class, :any, default: nil, doc: "the input wrapper class"
   attr :error_class, :any, default: nil, doc: "the input error class to use over defaults"
 
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
                 multiple pattern placeholder readonly required rows size step)
+
+  slot :icon
 
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
@@ -46,100 +49,115 @@ defmodule MeteorWeb.Components.Input do
     """
   end
 
-  def input(%{type: "checkbox"} = assigns) do
-    assigns =
-      assign_new(assigns, :checked, fn ->
-        Phoenix.HTML.Form.normalize_value("checkbox", assigns[:value])
-      end)
-
+  def input(%{type: "search"} = assigns) do
     ~H"""
-    <div class="fieldset mb-2">
-      <label for={@id}>
-        <input
-          type="hidden"
-          name={@name}
-          value="false"
-          disabled={@rest[:disabled]}
-          form={@rest[:form]}
-        />
-        <span class="label">
-          <input
-            type="checkbox"
-            id={@id}
-            name={@name}
-            value="true"
-            checked={@checked}
-            class={@class || "checkbox checkbox-sm"}
-            {@rest}
-          />{@label}
-        </span>
-      </label>
-      <.error :for={msg <- @errors}>{msg}</.error>
-    </div>
+    <label class={["input w-full h-12 p-4 rounded-4xl", @wrapper_class]}>
+      <Core.icon name="lucide-search" />
+      <input
+        type={@type}
+        name={@name}
+        id={@id}
+        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+        class={[
+          "w-full grow",
+          @errors != [] && (@error_class || "input-error")
+        ]}
+        {@rest}
+      />
+    </label>
     """
   end
+
+  # def input(%{type: "checkbox"} = assigns) do
+  #   assigns =
+  #     assign_new(assigns, :checked, fn ->
+  #       Phoenix.HTML.Form.normalize_value("checkbox", assigns[:value])
+  #     end)
+  #
+  #   ~H"""
+  #   <div class="fieldset">
+  #     <label for={@id}>
+  #       <input
+  #         type="hidden"
+  #         name={@name}
+  #         value="false"
+  #         disabled={@rest[:disabled]}
+  #         form={@rest[:form]}
+  #       />
+  #       <span class="label">
+  #         <input
+  #           type="checkbox"
+  #           id={@id}
+  #           name={@name}
+  #           value="true"
+  #           checked={@checked}
+  #           class={@class || "checkbox checkbox-sm"}
+  #           {@rest}
+  #         />{@label}
+  #       </span>
+  #     </label>
+  #     <.error :for={msg <- @errors}>{msg}</.error>
+  #   </div>
+  #   """
+  # end
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <div class="fieldset mb-2">
-      <label for={@id}>
-        <span :if={@label} class="label mb-1">{@label}</span>
-        <select
-          id={@id}
-          name={@name}
-          class={[@class || "w-full select", @errors != [] && (@error_class || "select-error")]}
-          multiple={@multiple}
-          {@rest}
-        >
-          <option :if={@prompt} value="">{@prompt}</option>
-          {Phoenix.HTML.Form.options_for_select(@options, @value)}
-        </select>
-      </label>
+    <fieldset class="fieldset">
+      <legend :if={@label} for={@id} class="fieldset-legend">{@label}</legend>
+      <select
+        id={@id}
+        name={@name}
+        class={[@class || "select w-full", @errors != [] && (@error_class || "select-error")]}
+        multiple={@multiple}
+        {@rest}
+      >
+        <option :if={@prompt} value="">{@prompt}</option>
+        {Phoenix.HTML.Form.options_for_select(@options, @value)}
+      </select>
       <.error :for={msg <- @errors}>{msg}</.error>
-    </div>
+    </fieldset>
     """
   end
 
-  def input(%{type: "textarea"} = assigns) do
-    ~H"""
-    <div class="fieldset mb-2">
-      <label for={@id}>
-        <span :if={@label} class="label mb-1">{@label}</span>
-        <textarea
-          id={@id}
-          name={@name}
-          class={[
-            @class || "w-full textarea",
-            @errors != [] && (@error_class || "textarea-error")
-          ]}
-          {@rest}
-        >{Phoenix.HTML.Form.normalize_value("textarea", @value)}</textarea>
-      </label>
-      <.error :for={msg <- @errors}>{msg}</.error>
-    </div>
-    """
-  end
+  # def input(%{type: "textarea"} = assigns) do
+  #   ~H"""
+  #   <div class="fieldset">
+  #     <label for={@id}>
+  #       <span :if={@label} class="label mb-1">{@label}</span>
+  #       <textarea
+  #         id={@id}
+  #         name={@name}
+  #         class={[
+  #           @class || "w-full textarea",
+  #           @errors != [] && (@error_class || "textarea-error")
+  #         ]}
+  #         {@rest}
+  #       >{Phoenix.HTML.Form.normalize_value("textarea", @value)}</textarea>
+  #     </label>
+  #     <.error :for={msg <- @errors}>{msg}</.error>
+  #   </div>
+  #   """
+  # end
 
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div class="fieldset mb-2">
-      <label for={@id}>
-        <span :if={@label} class="label mb-1">{@label}</span>
-        <input
-          type={@type}
-          name={@name}
-          id={@id}
-          value={Phoenix.HTML.Form.normalize_value(@type, @value)}
-          class={[
-            @class || "w-full input",
-            @errors != [] && (@error_class || "input-error")
-          ]}
-          {@rest}
-        />
-      </label>
+    <fieldset class="fieldset">
+      <legend :if={@label} class="fieldset-legend" for={@id}>{@label}</legend>
+      <input
+        type={@type}
+        name={@name}
+        id={@id}
+        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+        class={[
+          @class || "w-full input",
+          @errors != [] && (@error_class || "input-error")
+        ]}
+        {@rest}
+      />
       <.error :for={msg <- @errors}>{msg}</.error>
-    </div>
+    </fieldset>
     """
   end
 

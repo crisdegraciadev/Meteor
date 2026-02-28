@@ -31,6 +31,7 @@ defmodule MeteorWeb.Router do
 
     scope "/browser" do
       live "/", BrowserLive.Browser, :list
+      live "/:id/new", BrowserLive.Browser, :new
     end
 
     scope "/settings" do

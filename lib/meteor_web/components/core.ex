@@ -145,6 +145,69 @@ defmodule MeteorWeb.Components.Core do
     """
   end
 
+  attr :id, :string, required: true
+  attr :backdrop_link, :string, required: true
+  attr :closable, :boolean, default: true
+  attr :class, :string, default: nil
+  attr :rest, :global
+
+  slot :header do
+    attr :title, :string
+  end
+
+  slot :body
+  slot :footer
+
+  def modal(assigns) do
+    bottom_drawer =
+      "fixed bottom-0 mx-auto max-w-[unset] rounded-none rounded-tl-xl rounded-tr-xl w-full transition-[height] duration-300 ease-in-out"
+
+    assigns = assign(assigns, :bottom_drawer, bottom_drawer)
+
+    ~H"""
+    <dialog id={@id} class="modal modal-open shadow-lg" {@rest}>
+      <div
+        id="drawer"
+        phx-mounted={
+          JS.transition({"transition-all duration-300", "!h-0", "!h-[90vh]"}, to: "#drawer")
+        }
+        class={[
+          "modal-box bg-base-200 border border-base-100 !shadow-none",
+          @bottom_drawer,
+          @class
+        ]}
+      >
+        <.link
+          :if={@closable}
+          class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          patch={@backdrop_link}
+        >
+          ✕
+        </.link>
+        <div class="flex flex-col gap-8">
+          <div :if={@header != []}>
+            <%= if title = @header |> hd() |> Map.get(:title) do %>
+              <span class="text-lg font-semibold">{title}</span>
+            <% else %>
+              {render_slot(@header)}
+            <% end %>
+          </div>
+
+          <div :if={@body != []}>
+            {render_slot(@body)}
+          </div>
+
+          <div :if={@footer != []} class="flex gap-2 justify-end">
+            {render_slot(@footer)}
+          </div>
+        </div>
+      </div>
+
+      <.link :if={assigns[:backdrop_link]} class="modal-backdrop" patch={@backdrop_link}></.link>
+    </dialog>
+    """
+  end
+
   attr :name, :string, required: true
   attr :size, :string, default: "size-4"
   attr :class, :any, default: nil
