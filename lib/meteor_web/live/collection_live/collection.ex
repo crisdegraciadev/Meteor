@@ -1,4 +1,4 @@
-defmodule MeteorWeb.GameLive.Index do
+defmodule MeteorWeb.CollectionLive.Collection do
   use MeteorWeb, :live_view
 
   alias Meteor.Games

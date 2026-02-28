@@ -17,12 +17,25 @@ defmodule MeteorWeb.Router do
   scope "/", MeteorWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", RootLive.Root
 
-    live "/games", GameLive.Index, :index
-    live "/games/new", GameLive.Form, :new
-    live "/games/:id", GameLive.Show, :show
-    live "/games/:id/edit", GameLive.Form, :edit
+    live "/dashboard", DashboardLive.Dashboard
+
+    scope "/backlog" do
+      live "/", BacklogLive.Backlog, :list
+    end
+
+    scope "/collection" do
+      live "/", CollectionLive.Collection, :list
+    end
+
+    scope "/browser" do
+      live "/", BrowserLive.Browser, :list
+    end
+
+    scope "/settings" do
+      live "/", SettingsLive.Settings
+    end
   end
 
   # Other scopes may use custom stacks.

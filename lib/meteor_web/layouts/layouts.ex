@@ -4,72 +4,73 @@ defmodule MeteorWeb.Layouts do
   embed_templates "templates/*"
 
   attr :flash, :map, required: true, doc: "the map of flash messages"
-  attr :current_module, :string, default: "/"
+  attr :current_module, :list, default: ["/", ""]
   attr :current_scope, :map, default: nil
 
   slot :inner_block, required: true
 
   def app(assigns) do
     library_menu = [
-      %{label: "Collection", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-      %{label: "Backlog", href: ~p"/browser", icon: "lucide-book-marked"},
-      %{label: "Browser", href: ~p"/tags", icon: "lucide-file-search-corner"},
-      %{label: "Settings", href: ~p"/tags", icon: "lucide-settings"}
+      %{label: "Dashboard", href: ~p"/dashboard", icon: "lucide-house"},
+      %{label: "Collection", href: ~p"/collection", icon: "lucide-gamepad-2"},
+      %{label: "Backlog", href: ~p"/backlog", icon: "lucide-book-marked"},
+      %{label: "Browser", href: ~p"/browser", icon: "lucide-file-search-corner"},
+      %{label: "Settings", href: ~p"/settings", icon: "lucide-settings"}
     ]
 
     collections_menu = [
       %{
         label: "PSX",
-        href: ~p"/backlog",
+        href: ~p"/collection",
         icon: "lucide-gamepad-2",
         children: [
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 3", href: ~p"/backlog", icon: "lucide-gamepad-2"}
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 3", href: ~p"/collection", icon: "lucide-gamepad-2"}
         ]
       },
       %{
         label: "PS2",
-        href: ~p"/backlog",
+        href: ~p"/collection",
         icon: "lucide-gamepad-2",
         children: [
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 3", href: ~p"/backlog", icon: "lucide-gamepad-2"}
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 3", href: ~p"/collection", icon: "lucide-gamepad-2"}
         ]
       },
       %{
         label: "PS3",
-        href: ~p"/backlog",
+        href: ~p"/collection",
         icon: "lucide-gamepad-2",
         children: [
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 1", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 2", href: ~p"/backlog", icon: "lucide-gamepad-2"},
-          %{label: "Game 3", href: ~p"/backlog", icon: "lucide-gamepad-2"}
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 1", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 2", href: ~p"/collection", icon: "lucide-gamepad-2"},
+          %{label: "Game 3", href: ~p"/collection", icon: "lucide-gamepad-2"}
         ]
       }
     ]
